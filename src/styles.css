@@ -39,7 +39,7 @@ h1 em { color: #de3c42; font-style: normal; }
 .check-button { flex: 0 0 35px; width: 35px; height: 35px; padding: 0; border: 1px solid #5a5b58; border-radius: 50%; background: transparent; color: #e0ddd5; font-family: 'DM Mono', monospace; font-size: 9px; }
 .is-watched .check-button { border-color: #c8ff40; background: #c8ff40; color: #151714; font-weight: 500; }
 .movie-details { min-width: 0; flex: 1; }
-.movie-details h3 { margin: 1px 0 5px; overflow: hidden; color: #f4f0e7; font-size: 20px; font-weight: 500; line-height: 1.05; letter-spacing: -.01em; text-overflow: ellipsis; white-space: nowrap; }
+.movie-details h3 { margin: 1px 0 5px; color: #f4f0e7; font-size: 20px; font-weight: 500; line-height: 1.05; letter-spacing: -.01em; overflow-wrap: anywhere; }
 .is-watched h3 { color: #adada7; text-decoration: line-through; text-decoration-color: #c8ff40; text-decoration-thickness: 1px; }
 .movie-details > p { margin: 0; color: #878984; font-size: 9px; }
 .remove-button, .close-button { border: 0; background: none; color: #777872; font-size: 18px; line-height: 1; }
