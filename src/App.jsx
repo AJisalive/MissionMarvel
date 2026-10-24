@@ -149,12 +149,13 @@ function App() {
     setIsAdding(true);
   }
 
-  function addCatalogueMovie(movie) {
-    if (movies.some((currentMovie) => currentMovie.wikipediaTitle === movie.wikipediaTitle)) return;
+  function toggleCatalogueMovie(movie) {
+    setMovies((currentMovies) => {
+      if (currentMovies.some((currentMovie) => currentMovie.wikipediaTitle === movie.wikipediaTitle)) {
+        return currentMovies.filter((currentMovie) => currentMovie.wikipediaTitle !== movie.wikipediaTitle);
+      }
 
-    setMovies((currentMovies) => [
-      ...currentMovies,
-      {
+      return [...currentMovies, {
         id: crypto.randomUUID(),
         wikipediaTitle: movie.wikipediaTitle,
         title: movie.title,
@@ -162,8 +163,8 @@ function App() {
         posterUrl: movie.posterUrl,
         watched: false,
         rating: null,
-      },
-    ]);
+      }];
+    });
   }
 
   function toggleWatched(id) {
@@ -289,10 +290,10 @@ function App() {
                   {searchResults.map((movie) => {
                     const alreadyAdded = movies.some((currentMovie) => currentMovie.wikipediaTitle === movie.wikipediaTitle);
                     return (
-                      <button className="catalogue-movie" type="button" key={movie.wikipediaTitle} onClick={() => addCatalogueMovie(movie)} disabled={alreadyAdded}>
+                      <button className={`catalogue-movie ${alreadyAdded ? 'is-added' : ''}`} type="button" key={movie.wikipediaTitle} onClick={() => toggleCatalogueMovie(movie)} aria-label={`${alreadyAdded ? 'Remove' : 'Add'} ${movie.title}`}>
                         {movie.posterUrl ? <img src={movie.posterUrl} alt="" /> : <span className="no-poster">NO<br />POSTER</span>}
                         <span><strong>{movie.title}</strong><small>{movie.year || 'Release year unknown'}</small></span>
-                        <b>{alreadyAdded ? 'ADDED' : '+'}</b>
+                        <b>{alreadyAdded ? 'REMOVE' : '+'}</b>
                       </button>
                     );
                   })}

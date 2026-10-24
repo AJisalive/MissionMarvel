@@ -71,13 +71,15 @@ h1 em { color: #de3c42; font-style: normal; }
 .catalogue { display: grid; max-height: 49vh; gap: 8px; margin-top: 14px; overflow-y: auto; }
 .catalogue-movie { display: flex; min-height: 82px; padding: 0; border: 1px solid #41423e; background: #161717; color: #f4f0e7; text-align: left; }
 .catalogue-movie:hover, .catalogue-movie:focus-visible { border-color: #c8ff40; outline: 0; }
-.catalogue-movie:disabled { cursor: default; opacity: .47; }
+.catalogue-movie.is-added { border-color: #a64545; }
+.catalogue-movie.is-added:hover, .catalogue-movie.is-added:focus-visible { border-color: #ff7272; }
 .catalogue-movie img, .no-poster { flex: 0 0 54px; width: 54px; height: 80px; object-fit: cover; }
 .no-poster { display: grid; place-items: center; background: #2b2c2a; color: #a5a69f; font-size: 8px; line-height: 1.45; text-align: center; }
 .catalogue-movie > span:not(.no-poster) { display: grid; align-content: center; gap: 7px; min-width: 0; padding: 10px 9px; }
 .catalogue-movie strong { overflow: hidden; font-family: 'Oswald', sans-serif; font-size: 19px; font-weight: 500; line-height: 1; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
 .catalogue-movie small { color: #92938e; font-size: 9px; }
 .catalogue-movie b { align-self: center; margin-left: auto; padding: 13px; color: #c8ff40; font-size: 12px; font-weight: 500; }
+.catalogue-movie.is-added b { color: #ff7272; }
 .catalogue-note { margin: 20px 0; color: #a7a8a2; font-size: 10px; text-align: center; }
 .error-note { color: #ee7779; }
 .text-button { display: block; margin: 18px auto 0; padding: 0; border: 0; background: transparent; color: #c8ff40; font-size: 10px; text-decoration: underline; text-underline-offset: 3px; }
