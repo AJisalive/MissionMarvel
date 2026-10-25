@@ -62,6 +62,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searchState, setSearchState] = useState('idle');
+  const [noteMovieId, setNoteMovieId] = useState(null);
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(movies));
@@ -136,6 +137,7 @@ function App() {
         year: year.trim(),
         watched: false,
         rating: null,
+        notes: '',
       },
     ]);
     setTitle('');
@@ -163,6 +165,7 @@ function App() {
         posterUrl: movie.posterUrl,
         watched: false,
         rating: null,
+        notes: '',
       }];
     });
   }
@@ -176,6 +179,12 @@ function App() {
   function setRating(id, rating) {
     setMovies((currentMovies) => currentMovies.map((movie) => (
       movie.id === id ? { ...movie, watched: true, rating } : movie
+    )));
+  }
+
+  function setNotes(id, notes) {
+    setMovies((currentMovies) => currentMovies.map((movie) => (
+      movie.id === id ? { ...movie, notes } : movie
     )));
   }
 
@@ -253,6 +262,15 @@ function App() {
                 </div>
                 {movie.rating && <div className="score">{movie.rating}<small>/10</small></div>}
                 <button className="remove-button" type="button" onClick={() => removeMovie(movie.id)} aria-label={`Remove ${movie.title}`}>x</button>
+                <button className="notes-button" type="button" onClick={() => setNoteMovieId((currentId) => currentId === movie.id ? null : movie.id)} aria-expanded={noteMovieId === movie.id}>
+                  {movie.notes ? 'NOTES' : 'ADD NOTE'}
+                </button>
+                {noteMovieId === movie.id && (
+                  <label className="notes-control">
+                    <span>PERSONAL NOTES</span>
+                    <textarea value={movie.notes ?? ''} onChange={(event) => setNotes(movie.id, event.target.value)} placeholder="Why is this on the run? What did you think?" />
+                  </label>
+                )}
               </article>
             ))}
           </div>
