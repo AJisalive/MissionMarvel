@@ -63,6 +63,7 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchState, setSearchState] = useState('idle');
   const [noteMovieId, setNoteMovieId] = useState(null);
+  const [isSharing, setIsSharing] = useState(false);
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(movies));
@@ -122,7 +123,118 @@ function App() {
   const averageRating = ratedMovies.length
     ? (ratedMovies.reduce((total, movie) => total + movie.rating, 0) / ratedMovies.length).toFixed(1)
     : '--';
+  const favoriteMovie = ratedMovies.length
+    ? ratedMovies.reduce((favorite, movie) => movie.rating > favorite.rating ? movie : favorite)
+    : null;
   const visibleMovies = movies.filter((movie) => filter === 'all' || (filter === 'watched' ? movie.watched : !movie.watched));
+
+  function downloadRunCard() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 1500;
+    const context = canvas.getContext('2d');
+    const progress = movies.length ? watchedCount / movies.length : 0;
+    const remaining = movies.length - watchedCount;
+
+    function writeText(text, x, y, maxWidth, lineHeight) {
+      const words = text.split(' ');
+      let line = '';
+      let lineY = y;
+
+      words.forEach((word) => {
+        const nextLine = line ? `${line} ${word}` : word;
+        if (context.measureText(nextLine).width > maxWidth && line) {
+          context.fillText(line, x, lineY);
+          line = word;
+          lineY += lineHeight;
+        } else {
+          line = nextLine;
+        }
+      });
+      context.fillText(line, x, lineY);
+    }
+
+    context.fillStyle = '#111212';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    const glow = context.createRadialGradient(1080, 40, 0, 1080, 40, 580);
+    glow.addColorStop(0, '#711f27');
+    glow.addColorStop(1, 'rgba(113, 31, 39, 0)');
+    context.fillStyle = glow;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    context.strokeStyle = '#363637';
+    context.lineWidth = 3;
+    context.beginPath();
+    context.moveTo(82, 168);
+    context.lineTo(1118, 168);
+    context.stroke();
+
+    context.fillStyle = '#c8ff40';
+    context.font = '500 25px monospace';
+    context.fillText('YOUR MARVEL RUN', 84, 116);
+
+    context.fillStyle = '#f4f0e7';
+    context.font = '700 174px Impact, sans-serif';
+    context.fillText('MISSION', 76, 352);
+    context.fillStyle = '#de3c42';
+    context.fillText('MARVEL', 76, 488);
+
+    context.fillStyle = '#aaa9a4';
+    context.font = '400 28px monospace';
+    context.fillText('THE DOOMSDAY WATCHLIST', 84, 568);
+
+    context.fillStyle = '#191a1a';
+    context.strokeStyle = '#393b3a';
+    context.lineWidth = 3;
+    context.fillRect(76, 666, 1048, 264);
+    context.strokeRect(76, 666, 1048, 264);
+
+    context.fillStyle = '#8d8d88';
+    context.font = '500 22px monospace';
+    context.fillText('THE RUN', 112, 734);
+    context.fillStyle = '#c8ff40';
+    context.font = '500 72px Impact, sans-serif';
+    context.fillText(`${watchedCount} / ${movies.length}`, 112, 817);
+    context.fillStyle = '#2c2e2c';
+    context.fillRect(112, 856, 976, 16);
+    context.fillStyle = '#c8ff40';
+    context.fillRect(112, 856, 976 * progress, 16);
+
+    context.fillStyle = '#191a1a';
+    context.strokeStyle = '#393b3a';
+    context.fillRect(76, 974, 1048, 322);
+    context.strokeRect(76, 974, 1048, 322);
+    context.fillStyle = '#c8ff40';
+    context.font = '500 22px monospace';
+    context.fillText('FAVORITE SO FAR', 112, 1044);
+    context.fillStyle = '#f4f0e7';
+    context.font = '500 70px Impact, sans-serif';
+    writeText(favoriteMovie ? favoriteMovie.title.toUpperCase() : 'ADD & RATE FILMS', 112, 1132, 690, 70);
+    context.fillStyle = '#c8ff40';
+    context.font = '500 116px Impact, sans-serif';
+    context.textAlign = 'right';
+    context.fillText(favoriteMovie ? `${favoriteMovie.rating}/10` : averageRating, 1084, 1170);
+    context.fillStyle = '#8d8d88';
+    context.font = '500 22px monospace';
+    context.fillText(favoriteMovie ? 'TOP RATING' : 'AVG. RATING', 1084, 1216);
+    context.textAlign = 'left';
+
+    context.fillStyle = '#f4f0e7';
+    context.font = '500 30px monospace';
+    context.fillText(`${remaining} FILMS REMAIN BEFORE DOOMSDAY.`, 84, 1386);
+    context.fillStyle = '#8d8d88';
+    context.font = '400 20px monospace';
+    context.fillText('MISSION MARVEL', 84, 1435);
+
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'mission-marvel-run-card.png';
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }, 'image/png');
+  }
 
   function addMovie(event) {
     event.preventDefault();
@@ -201,6 +313,7 @@ function App() {
             <h1>MISSION<br /><em>MARVEL</em></h1>
             <p className="tagline">The films you are taking to the end.</p>
           </div>
+          <button className="share-button" type="button" onClick={() => setIsSharing(true)}>RUN CARD</button>
         </div>
       </section>
 
@@ -321,6 +434,24 @@ function App() {
               </>
             )}
           </div>
+        </div>
+      )}
+
+      {isSharing && (
+        <div className="modal-backdrop" role="presentation" onMouseDown={() => setIsSharing(false)}>
+          <section className="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-title" onMouseDown={(event) => event.stopPropagation()}>
+            <button className="close-button" type="button" onClick={() => setIsSharing(false)} aria-label="Close">x</button>
+            <p className="eyebrow">SHARE YOUR RUN</p>
+            <h2 id="share-title">Mission briefing</h2>
+            <div className="run-card" aria-label="Mission Marvel run card preview">
+              <p>YOUR MARVEL RUN</p>
+              <strong>MISSION<br /><em>MARVEL</em></strong>
+              <div className="run-card-progress"><span>THE RUN</span><b>{watchedCount} / {movies.length}</b><i><i style={{ width: movies.length ? `${(watchedCount / movies.length) * 100}%` : '0%' }} /></i></div>
+              <div className="run-card-favorite"><span>FAVORITE SO FAR</span><b>{favoriteMovie ? favoriteMovie.title : 'Add & rate films'}</b><em>{favoriteMovie ? `${favoriteMovie.rating}/10` : averageRating}</em></div>
+              <small>{movies.length ? `${movies.length - watchedCount} films remain before Doomsday.` : 'Build the essential list. Skip the rest.'}</small>
+            </div>
+            <button className="submit-button" type="button" onClick={downloadRunCard}>Download run card</button>
+          </section>
         </div>
       )}
     </main>

@@ -23,7 +23,7 @@ npm run cap:android
 
 ## Download
 
-[Download Mission Marvel v0.1.0 for Android (APK)](https://github.com/AJisalive/MissionMarvel/releases/download/v0.1.0/Mission-Marvel-v0.1.0.apk)
+[Download Mission Marvel v0.1.2 for Android (APK)](https://github.com/AJisalive/MissionMarvel/releases/download/v0.1.2/Mission-Marvel-v0.1.2.apk)
 
 This is a debug APK for direct installation. Android may ask you to allow your browser or file manager to install unknown apps.
 

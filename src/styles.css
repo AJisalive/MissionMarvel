@@ -9,6 +9,7 @@ button { cursor: pointer; }
 .hero { padding: 5px 2px 29px; border-bottom: 1px solid #363637; }
 .eyebrow { margin: 0; color: #c8ff40; font-size: 10px; font-weight: 500; letter-spacing: .16em; }
 .title-row { display: flex; justify-content: space-between; align-items: end; margin-top: 12px; }
+.share-button { flex: 0 0 auto; margin: 0 2px 3px 16px; padding: 10px 11px; border: 1px solid #c8ff40; background: transparent; color: #c8ff40; font-size: 9px; letter-spacing: .08em; }
 h1, h2, h3, p { margin-top: 0; }
 h1, h2, h3 { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
 h1 { margin-bottom: 8px; font-size: clamp(56px, 16vw, 104px); font-weight: 700; line-height: .72; letter-spacing: -.06em; }
@@ -65,14 +66,28 @@ h1 em { color: #de3c42; font-style: normal; }
 .empty-state button { padding: 11px 15px; }
 .modal-backdrop { position: fixed; z-index: 2; inset: 0; display: grid; place-items: end center; padding: 14px; background: rgba(0, 0, 0, .74); }
 .add-modal { position: relative; width: min(100%, 540px); padding: 29px 23px 23px; border: 1px solid #4c4d48; background: #1b1c1b; box-shadow: 0 -10px 60px rgba(0, 0, 0, .45); }
+.share-modal { position: relative; width: min(100%, 540px); max-height: calc(100vh - 28px); overflow-y: auto; padding: 29px 23px 23px; border: 1px solid #4c4d48; background: #1b1c1b; box-shadow: 0 -10px 60px rgba(0, 0, 0, .45); }
 .close-button { position: absolute; top: 17px; right: 15px; }
-.add-modal h2 { margin-bottom: 28px; font-size: 33px; }
+.add-modal h2, .share-modal h2 { margin-bottom: 28px; font-size: 33px; }
 .add-modal label { display: block; margin-bottom: 17px; color: #adada7; font-size: 9px; letter-spacing: .08em; }
 .add-modal label span { color: #777872; }
 .add-modal input { display: block; width: 100%; margin-top: 7px; padding: 12px 0 11px; border: 0; border-bottom: 1px solid #555753; border-radius: 0; outline: 0; background: transparent; color: #f4f0e7; font-size: 15px; }
 .add-modal input:focus { border-color: #c8ff40; }
 .add-modal input::placeholder { color: #676864; }
 .submit-button { width: 100%; margin-top: 8px; padding: 14px; }
+.run-card { position: relative; overflow: hidden; margin-bottom: 16px; padding: 22px; border: 1px solid #4c4d48; background: radial-gradient(circle at 100% 0, #4d191d 0, transparent 42%), #111212; }
+.run-card > p { margin: 0 0 12px; color: #c8ff40; font-size: 8px; letter-spacing: .15em; }
+.run-card > strong { display: block; color: #f4f0e7; font-family: 'Oswald', sans-serif; font-size: 57px; font-weight: 700; line-height: .68; letter-spacing: -.05em; }
+.run-card > strong em { color: #de3c42; font-style: normal; }
+.run-card-progress, .run-card-favorite { position: relative; margin-top: 26px; padding: 13px; border: 1px solid #393b3a; background: #191a1a; }
+.run-card-progress span, .run-card-favorite span { display: block; color: #8d8d88; font-size: 8px; letter-spacing: .1em; }
+.run-card-progress b { display: block; margin-top: 6px; color: #c8ff40; font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 500; line-height: 1; }
+.run-card-progress > i, .run-card-progress > i > i { display: block; height: 5px; margin-top: 10px; background: #2c2e2c; }
+.run-card-progress > i > i { margin: 0; background: #c8ff40; }
+.run-card-favorite { min-height: 86px; margin-top: 9px; padding-right: 78px; }
+.run-card-favorite b { display: block; margin-top: 7px; color: #f4f0e7; font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 500; line-height: 1; text-transform: uppercase; }
+.run-card-favorite em { position: absolute; right: 13px; bottom: 14px; color: #c8ff40; font-family: 'Oswald', sans-serif; font-size: 31px; font-style: normal; font-weight: 500; line-height: 1; }
+.run-card > small { display: block; margin-top: 20px; color: #aaa9a4; font-size: 8px; line-height: 1.5; }
 .search-label { margin-top: 25px; }
 .catalogue { display: grid; max-height: 49vh; gap: 8px; margin-top: 14px; overflow-y: auto; }
 .catalogue-movie { display: flex; min-height: 82px; padding: 0; border: 1px solid #41423e; background: #161717; color: #f4f0e7; text-align: left; }
